@@ -30,11 +30,19 @@ static{
     Product honey = new Product(); //mendeklarasikan variabel baru dengan nama honey
     honey.setId("1"); //menentukan id ke-1
     honey.setName("Honey"); //menuliskan nama dari id ke-1 yaitu "Honey"
+    honey.setPrice(10000);
+    honey.setDiskon(10.0);
+    double total = honey.getPrice() - (honey.getPrice() * honey.getDiskon()/100);
+    honey.setTotalharga(total);
     productRepo.put(honey.getId(), honey); //
     
     Product almond = new Product(); //mendeklarasikan variabel baru dengan nama almond
     almond.setId("2"); //menentukan id ke-2
     almond.setName("Almond"); //menuliskan nama dari id ke-1 yaitu "Almond"
+    almond.setPrice(20000);
+    almond.setDiskon(10.0);
+    total = almond.getPrice() - (almond.getPrice() * almond.getDiskon()/100);
+    almond.setTotalharga(total);
     productRepo.put(almond.getId(), almond); //
     }
     
@@ -79,6 +87,8 @@ static{
         //Jika id yang dimasukkan belum ada dalam list maka muncul pesan "Product added successfully"
         else 
         {
+            double total = product.getPrice() - (product.getPrice() * product.getDiskon()/100);
+            product.setTotalharga(total);
             productRepo.put(product.getId(), product);
             return new ResponseEntity<>("Product added successfully", HttpStatus.CREATED);
         }
@@ -87,6 +97,7 @@ static{
     //menampilkan produk pada path "/products"
     @RequestMapping(value="/products")
     public ResponseEntity<Object> getProduct(){
+        
         return new ResponseEntity<>(productRepo.values(), HttpStatus.OK);//
     }
 }
